@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:study_together/pages/makeRoomPage.dart';
 
 class RegularStudyPage extends StatelessWidget {
   const RegularStudyPage({Key? key}) : super(key: key);
@@ -16,7 +17,12 @@ class RegularStudyPage extends StatelessWidget {
             bottom: 18,
             right: 24,
             child: GestureDetector(
-              onTap: () => print("글쓰기"),
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MakeRoomPage()),
+                ),
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 16,

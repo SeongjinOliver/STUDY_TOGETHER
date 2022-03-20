@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'makeRoomPage.dart';
+
 class ImmediatelyStudyPage extends StatelessWidget {
   const ImmediatelyStudyPage({Key? key}) : super(key: key);
 
@@ -16,7 +18,12 @@ class ImmediatelyStudyPage extends StatelessWidget {
             bottom: 18,
             right: 24,
             child: GestureDetector(
-              onTap: () => print("글쓰기"),
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MakeRoomPage()),
+                ),
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 16,
