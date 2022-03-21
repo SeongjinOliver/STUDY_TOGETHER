@@ -18,6 +18,17 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Study Together",
+          style: TextStyle(
+            color: StudyTogetherColors.color4,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.grey,
+        elevation: 0.0,
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -25,9 +36,9 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 30,
-              ),
+              // SizedBox(
+              //   height: 30,
+              // ),
               // Text(
               //   "제목",
               // ),
@@ -174,7 +185,93 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                   ),
                 ],
               ),
-              // DropdownMenuItem(child: )
+              SizedBox(height: 20),
+              Text(
+                "설명글",
+              ),
+              SizedBox(height: 5),
+              TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: 6,
+                minLines: 6,
+                decoration: InputDecoration(
+                  // fillColor: Colors.blueAccent,
+                  filled: true,
+                  hintText: "이 글에 대해서 설명 해주세요",
+                  border: InputBorder.none,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "참여 방법",
+              ),
+              SizedBox(height: 5),
+              TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                minLines: 1,
+                decoration: InputDecoration(
+                  // fillColor: Colors.blueAccent,
+                  filled: true,
+                  hintText: "zoom, gather ...등의 url을 남겨주세요",
+                  border: InputBorder.none,
+                ),
+              ),
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    // style: style,
+                    onPressed: () {},
+                    child: const Text('방 만들기'),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                    // style: style,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          // return object of type Dialog
+                          return AlertDialog(
+                            title: new Text("경고"),
+                            content:
+                                new Text("현재까지 쓴 글이 삭제 됩니다. 그래도 취소 하시겠습니까?"),
+                            actions: [
+                              // 취소 버튼
+                              TextButton(
+                                child: Text(
+                                  "취소",
+                                  style: TextStyle(
+                                    color: StudyTogetherColors.color2,
+                                  ),
+                                ),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                              // 작성 버튼
+                              TextButton(
+                                child: Text(
+                                  "확인",
+                                  style: TextStyle(
+                                    color: StudyTogetherColors.color2,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: const Text('취소'),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
