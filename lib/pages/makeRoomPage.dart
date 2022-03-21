@@ -18,6 +18,7 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           "Study Together",
@@ -51,7 +52,7 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 7),
               Row(
                 children: [
                   Text(
@@ -185,7 +186,7 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               Text(
                 "설명글",
               ),
