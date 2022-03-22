@@ -38,13 +38,11 @@ class HomePage extends StatelessWidget {
   final List<Map<String, String>> categoryList = const [
     {
       "name": "분야 무관",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114541-559cb125-4548-4898-b8eb-b1c4177dc5cb.png",
+      "imgUrl": "https://i.ibb.co/DtL9f5T/library-gcb425fc9b-1920.jpg",
     },
     {
       "name": "IT/개발",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114221-3b30aaab-2388-4331-b3a0-044ea6a049ad.png",
+      "imgUrl": "https://i.ibb.co/pvcP9ZK/notebook-g10db0d293-1920.jpg",
     },
     {
       "name": "경제/투자",
@@ -53,8 +51,7 @@ class HomePage extends StatelessWidget {
     },
     {
       "name": "수능/공부",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114257-88f3c66c-a4b8-4d2d-9451-323a810ff9d4.png",
+      "imgUrl": "https://i.ibb.co/RjXFGcj/laptop-g93ba736f2-1920.jpg",
     },
     {
       "name": "디자인",
@@ -369,6 +366,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   radius: 52,
+                                  backgroundImage: NetworkImage(imgUrl),
                                   backgroundColor: Colors.transparent,
                                 ),
                                 SizedBox(height: 6),
@@ -426,6 +424,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   radius: 52,
+                                  backgroundImage: NetworkImage(imgUrl),
                                   backgroundColor: Colors.transparent,
                                 ),
                                 SizedBox(height: 6),
@@ -483,6 +482,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   radius: 52,
+                                  backgroundImage: NetworkImage(imgUrl),
                                   backgroundColor: Colors.transparent,
                                 ),
                                 SizedBox(height: 6),
@@ -502,7 +502,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
 
-          /// 공부방 만들기
+          /// 공부방 만들기 버튼
           Positioned(
             bottom: 20,
             right: 25,
