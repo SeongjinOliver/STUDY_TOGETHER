@@ -153,14 +153,14 @@ class ImmediatelyStudyPage extends StatelessWidget {
                       "공부방 만들기",
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white,
+                        color: Colors.yellow,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(width: 5),
                     Icon(
                       Icons.meeting_room_sharp,
-                      color: Colors.white,
+                      color: Colors.yellow,
                       size: 25,
                     ),
                   ],
