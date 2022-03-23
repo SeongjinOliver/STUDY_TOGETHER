@@ -142,7 +142,7 @@ class RegularStudyPage extends StatelessWidget {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: StudyTogetherColors.color4,
+                  color: StudyTogetherColors.color1,
                   borderRadius: BorderRadius.circular(60),
                 ),
                 child: Row(
@@ -151,14 +151,14 @@ class RegularStudyPage extends StatelessWidget {
                       "공부방 만들기",
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white,
+                        color: Colors.yellow,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(width: 5),
                     Icon(
                       Icons.meeting_room_sharp,
-                      color: Colors.white,
+                      color: Colors.yellow,
                       size: 25,
                     ),
                   ],

@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:study_together/pages/immediatelyStudyPage.dart';
@@ -31,8 +32,56 @@ class _homePageState extends State<homePage> {
 }
 
 /// 첫 번째 페이지
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String? onoff;
+  List<String> onoffs = [
+    '온라인',
+    '서울',
+    '경기',
+    '대전',
+    '부산',
+    '제주',
+  ];
+
+  String? time;
+  List<String> times = [
+    '새벽 2~7시',
+    '아침 7~12시',
+    '점심 12~2시',
+    '오후 2~6시',
+    '저녁 6~10시',
+    '밤 10시~2시',
+  ];
+
+  String? day;
+  List<String> days = [
+    '월요일',
+    '화요일',
+    '수요일',
+    '목요일',
+    '금요일',
+    '토요일',
+    '일요일',
+  ];
+
+  String? field;
+  List<String> fields = [
+    '분야 무관',
+    'IT/개발',
+    '경제/투자',
+    '수능',
+    '디자인',
+    '외국어',
+    '자격증',
+    '창업',
+  ];
 
   /// 공부 방 분야별 이미지
   final List<Map<String, String>> categoryList = const [
@@ -203,97 +252,308 @@ class HomePage extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          /// What's New
-
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.blueGrey),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
+                          DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              isExpanded: true,
+                              hint: Row(
+                                children: const [
+                                  Expanded(
                                     child: Text(
-                                      "요일",
+                                      '온/오프 선택',
                                       style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.blueGrey,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.yellow,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.blueGrey),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
+                              items: onoffs
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ))
+                                  .toList(),
+                              value: onoff,
+                              onChanged: (value) {
+                                setState(() {
+                                  onoff = value as String;
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 14,
+                              iconEnabledColor: Colors.yellow,
+                              iconDisabledColor: Colors.grey,
+                              buttonHeight: 50,
+                              buttonWidth: 100,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 5, right: 5),
+                              buttonDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                ),
+                                color: StudyTogetherColors.color1,
+                              ),
+                              buttonElevation: 2,
+                              itemHeight: 40,
+                              itemPadding:
+                                  const EdgeInsets.only(left: 14, right: 14),
+                              dropdownMaxHeight: 200,
+                              dropdownWidth: 200,
+                              dropdownPadding: null,
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: Colors.redAccent,
+                              ),
+                              dropdownElevation: 8,
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(-20, 0),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              isExpanded: true,
+                              hint: Row(
+                                children: const [
+                                  Expanded(
                                     child: Text(
-                                      "시간",
+                                      '시간',
                                       style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.blueGrey,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.yellow,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.blueGrey),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
+                              items: times
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ))
+                                  .toList(),
+                              value: time,
+                              onChanged: (value) {
+                                setState(() {
+                                  time = value as String;
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 14,
+                              iconEnabledColor: Colors.yellow,
+                              iconDisabledColor: Colors.grey,
+                              buttonHeight: 50,
+                              buttonWidth: 60,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 8, right: 5),
+                              buttonDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                ),
+                                color: StudyTogetherColors.color1,
+                              ),
+                              buttonElevation: 2,
+                              itemHeight: 40,
+                              itemPadding:
+                                  const EdgeInsets.only(left: 14, right: 14),
+                              dropdownMaxHeight: 200,
+                              dropdownWidth: 200,
+                              dropdownPadding: null,
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: Colors.redAccent,
+                              ),
+                              dropdownElevation: 8,
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(-20, 0),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              isExpanded: true,
+                              hint: Row(
+                                children: const [
+                                  Expanded(
                                     child: Text(
-                                      "온/오프라인",
+                                      '요일',
                                       style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.blueGrey,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.yellow,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.blueGrey),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
+                              items: days
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ))
+                                  .toList(),
+                              value: day,
+                              onChanged: (value) {
+                                setState(() {
+                                  day = value as String;
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 14,
+                              iconEnabledColor: Colors.yellow,
+                              iconDisabledColor: Colors.grey,
+                              buttonHeight: 50,
+                              buttonWidth: 60,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 8, right: 5),
+                              buttonDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                ),
+                                color: StudyTogetherColors.color1,
+                              ),
+                              buttonElevation: 2,
+                              itemHeight: 40,
+                              itemPadding:
+                                  const EdgeInsets.only(left: 14, right: 14),
+                              dropdownMaxHeight: 200,
+                              dropdownWidth: 200,
+                              dropdownPadding: null,
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: Colors.redAccent,
+                              ),
+                              dropdownElevation: 8,
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(-20, 0),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              isExpanded: true,
+                              hint: Row(
+                                children: const [
+                                  Expanded(
                                     child: Text(
-                                      "분야",
+                                      '분야',
                                       style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.blueGrey,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
+                                        color: Colors.yellow,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                              items: fields
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ))
+                                  .toList(),
+                              value: field,
+                              onChanged: (value) {
+                                setState(() {
+                                  field = value as String;
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 14,
+                              iconEnabledColor: Colors.yellow,
+                              iconDisabledColor: Colors.grey,
+                              buttonHeight: 50,
+                              buttonWidth: 60,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 8, right: 5),
+                              buttonDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: Colors.black26,
+                                ),
+                                color: StudyTogetherColors.color1,
+                              ),
+                              buttonElevation: 2,
+                              itemHeight: 40,
+                              itemPadding:
+                                  const EdgeInsets.only(left: 14, right: 14),
+                              dropdownMaxHeight: 200,
+                              dropdownWidth: 200,
+                              dropdownPadding: null,
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: Colors.redAccent,
+                              ),
+                              dropdownElevation: 8,
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(-20, 0),
+                            ),
                           ),
 
                           /// 텍스트 입력창
-                          Expanded(
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText: "세부 분야를 검색해 보세요.",
-                              ),
-                            ),
-                          ),
+                          /// Expanded(
+                          //   child: TextField(
+                          //     decoration: InputDecoration(
+                          //      hintText: "세부 분야를 검색해 보세요.",
+                          //     ),
+                          //  ),
+                          // ),
 
                           //검색버튼
                           //GestureDetector(
@@ -519,7 +779,7 @@ class HomePage extends StatelessWidget {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: StudyTogetherColors.color4,
+                  color: StudyTogetherColors.color1,
                   borderRadius: BorderRadius.circular(60),
                 ),
                 child: Row(
@@ -528,14 +788,14 @@ class HomePage extends StatelessWidget {
                       "공부방 만들기",
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white,
+                        color: Colors.yellow,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(width: 5),
                     Icon(
                       Icons.meeting_room_sharp,
-                      color: Colors.white,
+                      color: Colors.yellow,
                       size: 25,
                     ),
                   ],
