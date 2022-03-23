@@ -129,8 +129,8 @@ class ImmediatelyStudyPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 18,
-            right: 24,
+            bottom: 20,
+            right: 25,
             child: GestureDetector(
               onTap: () => {
                 Navigator.push(
@@ -140,7 +140,7 @@ class ImmediatelyStudyPage extends StatelessWidget {
               },
               child: Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 16,
+                  horizontal: 20,
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
@@ -149,19 +149,19 @@ class ImmediatelyStudyPage extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      CupertinoIcons.plus,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                    SizedBox(width: 6),
                     Text(
-                      "글쓰기",
+                      "공부방 만들기",
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    SizedBox(width: 5),
+                    Icon(
+                      Icons.meeting_room_sharp,
+                      color: Colors.white,
+                      size: 25,
                     ),
                   ],
                 ),
