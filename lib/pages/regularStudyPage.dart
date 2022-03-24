@@ -1,7 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:study_together/config/studyTogetherColors.dart';
 import 'package:study_together/pages/makeRoomPage.dart';
+
+import '../service/studyService.dart';
 
 class RegularStudyPage extends StatelessWidget {
   const RegularStudyPage({Key? key}) : super(key: key);
@@ -56,118 +59,136 @@ class RegularStudyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        elevation: 0.5,
-        backgroundColor: Colors.white,
-        title: Text(
-          '스터디 찾기',
-          style: TextStyle(
-            color: StudyTogetherColors.color1,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: ListView.builder(
-                  itemCount: categoryList.length,
-                  itemBuilder: (context, index) {
-                    final category = categoryList[index % categoryList.length];
-                    final name = category["name"] ?? "이름";
-                    final imgUrl = category["imgUrl"] ?? "";
-                    return ListTile(
-                      leading: Image.network(
-                        imgUrl,
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.cover,
-                      ),
-                      title: Text(
-                        name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('함께 집중해서 스터디할 팀원 구합니다!'),
-                          SizedBox(
-                            width: 180,
-                            child: Row(
-                              children: [
-                                Text(
-                                  '진행중',
-                                  style: TextStyle(
-                                      color: StudyTogetherColors.color2),
-                                ),
-                                Spacer(),
-                                Text('멤버 5/10'),
-                                Spacer(),
-                                Text('온라인'),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Divider()
-                        ],
-                      ),
-                      onTap: () {
-                        //launch(roompage);
-                      },
-                    );
-                  }),
-            ),
-          ),
-          Positioned(
-            bottom: 20,
-            right: 25,
-            child: GestureDetector(
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MakeRoomPage()),
-                ),
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  color: StudyTogetherColors.color1,
-                  borderRadius: BorderRadius.circular(60),
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      "공부방 만들기",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.yellow,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    Icon(
-                      Icons.meeting_room_sharp,
-                      color: Colors.yellow,
-                      size: 25,
-                    ),
-                  ],
-                ),
+    return Consumer<StudyService>(
+      builder: (context, studyService, child) {
+        final StudyService studyService = context.read<StudyService>();
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: false,
+            elevation: 0.5,
+            backgroundColor: Colors.white,
+            title: Text(
+              '스터디 찾기',
+              style: TextStyle(
+                color: StudyTogetherColors.color1,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
-        ],
-      ),
+          body: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder<QuerySnapshot>(
+                  future: studyService.read('정규 스터디'),
+                  builder: (context, snapshot) {
+                    final documents = snapshot.data?.docs ?? [];
+                    return ListView.builder(
+                        itemCount: documents.length,
+                        itemBuilder: (context, index) {
+                          final doc = documents[index];
+                          final category =
+                              categoryList[index % categoryList.length];
+                          // final name = category["name"] ?? "이름";
+                          final title = doc.get("title");
+                          final description = doc.get("description");
+                          final currentMemberCount =
+                              doc.get("currentMemberCount");
+                          final memberMaxCount = doc.get("memberMaxCount");
+                          final onOffLine = doc.get("onOffLine");
+                          final imgUrl = category["imgUrl"] ?? "";
+                          return ListTile(
+                            leading: Image.network(
+                              imgUrl,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            ),
+                            title: Text(
+                              title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(description),
+                                SizedBox(
+                                  width: 180,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '진행중',
+                                        style: TextStyle(
+                                            color: StudyTogetherColors.color2),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                          '멤버 $currentMemberCount/$memberMaxCount'),
+                                      Spacer(),
+                                      Text('$onOffLine'),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Divider()
+                              ],
+                            ),
+                            onTap: () {
+                              //launch(roompage);
+                            },
+                          );
+                        });
+                  },
+                ),
+              ),
+              Positioned(
+                bottom: 20,
+                right: 25,
+                child: GestureDetector(
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MakeRoomPage()),
+                    ),
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: StudyTogetherColors.color1,
+                      borderRadius: BorderRadius.circular(60),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          "공부방 만들기",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.yellow,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Icon(
+                          Icons.meeting_room_sharp,
+                          color: Colors.yellow,
+                          size: 25,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

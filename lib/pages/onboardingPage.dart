@@ -62,7 +62,7 @@ class OnboardingPage extends StatelessWidget {
           // Done 클릭시 페이지 이동
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => StudyTogether()),
+            MaterialPageRoute(builder: (context) => StudyTogether(0)),
           );
         },
       ),

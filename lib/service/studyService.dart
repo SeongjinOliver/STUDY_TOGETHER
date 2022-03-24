@@ -3,11 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class StudyService extends ChangeNotifier {
-  final bucketCollection = FirebaseFirestore.instance.collection('study_room');
+  final studyTogetherCollection =
+      FirebaseFirestore.instance.collection('study_room');
 
-  Future<QuerySnapshot> read(String uid) async {
+  Future<QuerySnapshot> read(String studyType) async {
     // 내 bucketList 가져오기
-    throw UnimplementedError(); // return 값 미구현 에러
+    return studyTogetherCollection
+        .where('studyType', isEqualTo: studyType)
+        .get();
   }
 
   void create(String job, String uid) async {
@@ -22,12 +25,15 @@ class StudyService extends ChangeNotifier {
     // bucket 삭제
   }
 
+  // 방 만들기
   void makeStudyRoomType({
     required String title,
+    required String studyType,
     required String onOffLine,
     required DateTime startDate,
     required DateTime finishDate,
     required String field,
+    required int currentMemberCount,
     required int memberMaxCount,
     required String description,
     required String attendance,
@@ -45,12 +51,14 @@ class StudyService extends ChangeNotifier {
       return;
     }
 
-    await bucketCollection.add({
+    await studyTogetherCollection.add({
       'title': title,
+      'studyType': studyType,
       'onOffLine': onOffLine,
       'startDate': startDate,
       'finishDate': finishDate,
       'field': field,
+      'currentMemberCount': currentMemberCount,
       'memberMaxCount': memberMaxCount,
       'description': description,
       'attendance': attendance,

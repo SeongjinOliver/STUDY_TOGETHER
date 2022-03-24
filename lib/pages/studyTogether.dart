@@ -5,17 +5,26 @@ import 'package:study_together/pages/immediatelyStudyPage.dart';
 import 'package:study_together/pages/regularStudyPage.dart';
 
 class StudyTogether extends StatefulWidget {
-  const StudyTogether({Key? key}) : super(key: key);
+  const StudyTogether(
+    this.startIndex, {
+    Key? key,
+  }) : super(key: key);
+  final int startIndex;
 
   @override
-  State<StudyTogether> createState() => _StudyTogetherState();
+  State<StudyTogether> createState() => _StudyTogetherState(startIndex);
 }
 
 class _StudyTogetherState extends State<StudyTogether> {
   int currentIndex = 0;
 
+  _StudyTogetherState(int startIndex) {
+    currentIndex = startIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(currentIndex);
     return Scaffold(
       // appBar: AppBar(
       //   title: Text("Home Page!"),

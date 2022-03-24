@@ -30,16 +30,18 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
     //   });
   }
 
+  String studyTypeDropdownValue = '정규 스터디';
   String onOffLineDropdownValue = '온라인';
   DateTime startDateValue = DateTime.now();
   DateTime finishDateValue = DateTime.now();
-  String fieldDropdownValue = 'IT';
+  String fieldDropdownValue = '분야 무관';
   String memberCountDropdownValue = '1';
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController attendanceController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    bool isError = false;
     return Consumer<StudyService>(
       builder: (context, studyService, child) {
         final StudyService studyService = context.read<StudyService>();
@@ -84,6 +86,41 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                     Row(
                       children: [
                         Text(
+                          "스터디 유형",
+                        ),
+                        SizedBox(width: 10),
+                        DropdownButton(
+                          value: studyTypeDropdownValue,
+                          items: <String>[
+                            '정규 스터디',
+                            '즉시 스터디',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              studyTypeDropdownValue = newValue!;
+                            });
+                          },
+                          elevation: 16,
+                          underline: Container(
+                            height: 2,
+                            color: StudyTogetherColors.color4,
+                          ),
+                          iconSize: 28,
+                          iconEnabledColor: StudyTogetherColors.color4,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
                           "온/오프라인",
                         ),
                         SizedBox(width: 10),
@@ -93,7 +130,10 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Text(
+                                value,
+                                style: TextStyle(fontSize: 15),
+                              ),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
@@ -122,11 +162,22 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                         SizedBox(width: 50),
                         DropdownButton(
                           value: fieldDropdownValue,
-                          items: <String>['ENGLISH', 'IT']
-                              .map<DropdownMenuItem<String>>((String value) {
+                          items: <String>[
+                            '분야 무관',
+                            'IT/개발',
+                            '경제/투자',
+                            '수능/공부',
+                            '디자인',
+                            '외국어',
+                            '자격증',
+                            '창업'
+                          ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Text(
+                                value,
+                                style: TextStyle(fontSize: 15),
+                              ),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
@@ -134,6 +185,7 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                               fieldDropdownValue = newValue!;
                             });
                           },
+                          elevation: 16,
                           underline: Container(
                             height: 2,
                             color: StudyTogetherColors.color4,
@@ -166,7 +218,10 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Text(
+                                value,
+                                style: TextStyle(fontSize: 15),
+                              ),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
@@ -278,16 +333,19 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                             // 방 만들기
                             studyService.makeStudyRoomType(
                               title: titleController.text,
+                              studyType: studyTypeDropdownValue,
                               onOffLine: onOffLineDropdownValue,
                               startDate: startDateValue,
                               finishDate: finishDateValue,
                               field: fieldDropdownValue,
+                              currentMemberCount: 1, // 최초 방 만들 때는 방장 한명
                               memberMaxCount:
                                   int.parse(memberCountDropdownValue),
                               description: descriptionController.text,
                               attendance: attendanceController.text,
                               onError: (err) {
                                 // 에러 발생
+                                isError = true;
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(err),
@@ -297,6 +355,17 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                                 );
                               },
                             );
+                            if (!isError) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StudyTogether(
+                                      studyTypeDropdownValue == '정규 스터디'
+                                          ? 1
+                                          : 2),
+                                ),
+                              );
+                            }
                           },
                           child: const Text('방 만들기'),
                         ),
@@ -343,7 +412,7 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                StudyTogether(),
+                                                StudyTogether(0),
                                           ),
                                         );
                                         // Navigator.pop(context);
