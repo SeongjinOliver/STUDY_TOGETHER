@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:study_together/config/studyTogetherColors.dart';
+import 'package:study_together/pages/detailPage.dart';
 import 'package:study_together/pages/makeRoomPage.dart';
 
 import '../service/studyService.dart';
@@ -96,10 +97,19 @@ class RegularStudyPage extends StatelessWidget {
                               doc.get("currentMemberCount");
                           final memberMaxCount = doc.get("memberMaxCount");
                           final onOffLine = doc.get("onOffLine");
-                          final imgUrl = category["imgUrl"] ?? "";
+                          final field = doc.get("field");
+                          String? imgUrl = category["imgUrl"] ?? "";
+                          for (Map<String, String> category in categoryList) {
+                            if (category['name'] == field) {
+                              imgUrl = category['imgUrl'];
+                            }
+                          }
+                          final DateTime finishDate =
+                              doc.get("finishDate").toDate();
+                          final now = DateTime.now();
                           return ListTile(
                             leading: Image.network(
-                              imgUrl,
+                              imgUrl!,
                               width: 80,
                               height: 80,
                               fit: BoxFit.cover,
@@ -119,7 +129,9 @@ class RegularStudyPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        '진행중',
+                                        finishDate.compareTo(now) > 0
+                                            ? '진행중'
+                                            : '종료',
                                         style: TextStyle(
                                             color: StudyTogetherColors.color2),
                                       ),
@@ -138,6 +150,12 @@ class RegularStudyPage extends StatelessWidget {
                               ],
                             ),
                             onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailPage(doc, imgUrl!)),
+                              );
                               //launch(roompage);
                             },
                           );
