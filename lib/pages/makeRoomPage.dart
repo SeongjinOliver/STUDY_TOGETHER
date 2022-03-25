@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:study_together/pages/homePage.dart';
 import 'package:study_together/pages/studyTogether.dart';
 import 'package:study_together/service/studyService.dart';
 

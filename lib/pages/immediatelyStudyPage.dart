@@ -96,11 +96,20 @@ class ImmediatelyStudyPage extends StatelessWidget {
                               doc.get("currentMemberCount");
                           final memberMaxCount = doc.get("memberMaxCount");
                           final onOffLine = doc.get("onOffLine");
-                          final imgUrl = category["imgUrl"] ?? "";
                           final field = doc.get("field");
+                          String? imgUrl = category["imgUrl"] ?? "";
+                          for (Map<String, String> category in categoryList) {
+                            if (category['name'] == field) {
+                              imgUrl = category['imgUrl'];
+                              break;
+                            }
+                          }
+                          final DateTime finishDate =
+                              doc.get("finishDate").toDate();
+                          final now = DateTime.now();
                           return ListTile(
                             leading: Image.network(
-                              imgUrl,
+                              imgUrl!,
                               width: 80,
                               height: 80,
                               fit: BoxFit.cover,
@@ -120,7 +129,9 @@ class ImmediatelyStudyPage extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        '진행중',
+                                        finishDate.compareTo(now) > 0
+                                            ? '진행중'
+                                            : '종료',
                                         style: TextStyle(
                                             color: StudyTogetherColors.color2),
                                       ),
