@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:study_together/pages/immediatelyStudyPage.dart';
 import 'package:study_together/pages/makeRoomPage.dart';
 import 'package:study_together/pages/regularStudyPage.dart';
 import 'package:study_together/config/studyTogetherColors.dart';
+import 'package:study_together/service/studyService.dart';
 
 class homePage extends StatefulWidget {
   const homePage({Key? key}) : super(key: key);
@@ -126,6 +129,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final StudyService studyService = context.read<StudyService>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -574,14 +578,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+
+              ///스터디 목록 미리보기
               SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// 종일 스터디 Title
+                    /// 정규 스터디 Title
                     Padding(
                       padding: const EdgeInsets.only(
-                        top: 10,
+                        top: 20,
                         left: 20,
                       ),
                       child: RichText(
@@ -595,7 +601,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           children: [
                             TextSpan(
-                              text: "종일",
+                              text: "정규",
                               style: TextStyle(
                                 color: StudyTogetherColors.color4,
                               ),
@@ -606,98 +612,68 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
 
-                    SizedBox(height: 32),
-
-                    /// 종일 스터디 목록
+                    /// 정규 스터디 목록
                     SizedBox(
                       height: 150,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 100,
-                        itemBuilder: (context, index) {
-                          final category =
-                              categoryList[index % categoryList.length];
-                          final name = category["name"] ?? "이름";
-                          final imgUrl = category["imgUrl"] ?? "";
-                          return SizedBox(
-                            width: 120,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CircleAvatar(
-                                  radius: 52,
-                                  backgroundImage: NetworkImage(imgUrl),
-                                  backgroundColor: Colors.transparent,
-                                ),
-                                SizedBox(height: 6),
-                                Text(
-                                  name,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                      child: FutureBuilder<QuerySnapshot>(
+                          future: studyService.read('정규 스터디'),
+                          builder: (context, snapshot) {
+                            final documents = snapshot.data?.docs ?? [];
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: documents.length,
+                              itemBuilder: (context, index) {
+                                final doc = documents[index];
+                                final category =
+                                    categoryList[index % categoryList.length];
 
-                    /// 저녁 스터디 Title
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          // 공통 스타일
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "저녁",
-                              style: TextStyle(
-                                color: StudyTogetherColors.color4,
-                              ),
-                            ),
-                            TextSpan(text: " 스터디"),
-                          ],
-                        ),
-                      ),
+                                final imgUrl = category["imgUrl"] ?? "";
+                                final field = doc.get("field");
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: GestureDetector(
+                                    onTap: () => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RegularStudyPage()),
+                                      ),
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 100,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 52,
+                                                backgroundImage:
+                                                    NetworkImage(imgUrl),
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                              ),
+                                              SizedBox(height: 6),
+                                              Text(
+                                                field,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }),
                     ),
-
-                    /// 저녁 스터디 목록
-                    SizedBox(
-                      height: 150,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 100,
-                        itemBuilder: (context, index) {
-                          final category =
-                              categoryList[index % categoryList.length];
-                          final name = category["name"] ?? "이름";
-                          final imgUrl = category["imgUrl"] ?? "";
-                          return SizedBox(
-                            width: 120,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CircleAvatar(
-                                  radius: 52,
-                                  backgroundImage: NetworkImage(imgUrl),
-                                  backgroundColor: Colors.transparent,
-                                ),
-                                SizedBox(height: 6),
-                                Text(
-                                  name,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                    SizedBox(height: 10),
 
                     /// 즉시 스터디 Title
                     Padding(
@@ -727,34 +703,131 @@ class _HomePageState extends State<HomePage> {
                     /// 즉시 스터디 목록
                     SizedBox(
                       height: 150,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 100,
-                        itemBuilder: (context, index) {
-                          final category =
-                              categoryList[index % categoryList.length];
-                          final name = category["name"] ?? "이름";
-                          final imgUrl = category["imgUrl"] ?? "";
-                          return SizedBox(
-                            width: 128,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CircleAvatar(
-                                  radius: 52,
-                                  backgroundImage: NetworkImage(imgUrl),
-                                  backgroundColor: Colors.transparent,
-                                ),
-                                SizedBox(height: 6),
-                                Text(
-                                  name,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
+                      child: FutureBuilder<QuerySnapshot>(
+                          future: studyService.read('즉시 스터디'),
+                          builder: (context, snapshot) {
+                            final documents = snapshot.data?.docs ?? [];
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: documents.length,
+                              itemBuilder: (context, index) {
+                                final doc = documents[index];
+                                final category =
+                                    categoryList[index % categoryList.length];
+
+                                final imgUrl = category["imgUrl"] ?? "";
+                                final field = doc.get("field");
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: GestureDetector(
+                                    onTap: () => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ImmediatelyStudyPage()),
+                                      ),
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 100,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 52,
+                                                backgroundImage:
+                                                    NetworkImage(imgUrl),
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                              ),
+                                              SizedBox(height: 6),
+                                              Text(
+                                                field,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }),
+                    ),
+                    SizedBox(height: 10),
+
+                    /// 시간대별 스터디 Title
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          // 공통 스타일
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "시간대별",
+                              style: TextStyle(
+                                color: StudyTogetherColors.color4,
+                              ),
                             ),
-                          );
-                        },
+                            TextSpan(text: " 스터디"),
+                          ],
+                        ),
                       ),
+                    ),
+
+                    /// 시간대별 스터디 목록
+                    SizedBox(
+                      height: 150,
+                      child: FutureBuilder<QuerySnapshot>(
+                          future: studyService.read('정규 스터디'),
+                          builder: (context, snapshot) {
+                            final documents = snapshot.data?.docs ?? [];
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: documents.length,
+                              itemBuilder: (context, index) {
+                                final doc = documents[index];
+                                final category =
+                                    categoryList[index % categoryList.length];
+
+                                final imgUrl = category["imgUrl"] ?? "";
+                                final startDate = doc.get("stardDate");
+                                final finishDate = doc.get("finishDate");
+
+                                return SizedBox(
+                                  width: 100,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 52,
+                                        backgroundImage: NetworkImage(imgUrl),
+                                        backgroundColor: Colors.transparent,
+                                      ),
+                                      SizedBox(height: 6),
+                                      Text(
+                                        startDate,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          }),
                     ),
                   ],
                 ),

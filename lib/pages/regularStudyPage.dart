@@ -68,7 +68,7 @@ class RegularStudyPage extends StatelessWidget {
             elevation: 0.5,
             backgroundColor: Colors.white,
             title: Text(
-              '스터디 찾기',
+              '정규 스터디 찾기',
               style: TextStyle(
                 color: StudyTogetherColors.color1,
                 fontWeight: FontWeight.w600,
@@ -97,6 +97,7 @@ class RegularStudyPage extends StatelessWidget {
                           final memberMaxCount = doc.get("memberMaxCount");
                           final onOffLine = doc.get("onOffLine");
                           final imgUrl = category["imgUrl"] ?? "";
+                          final field = doc.get("field");
                           return ListTile(
                             leading: Image.network(
                               imgUrl,
@@ -115,7 +116,7 @@ class RegularStudyPage extends StatelessWidget {
                               children: [
                                 Text(description),
                                 SizedBox(
-                                  width: 180,
+                                  width: 220,
                                   child: Row(
                                     children: [
                                       Text(
@@ -125,9 +126,11 @@ class RegularStudyPage extends StatelessWidget {
                                       ),
                                       Spacer(),
                                       Text(
-                                          '멤버 $currentMemberCount/$memberMaxCount'),
+                                          '인원수$currentMemberCount/$memberMaxCount'),
                                       Spacer(),
                                       Text('$onOffLine'),
+                                      Spacer(),
+                                      Text('$field'),
                                     ],
                                   ),
                                 ),
