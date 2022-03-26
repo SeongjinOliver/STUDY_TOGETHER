@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:study_together/config/studyTogetherColors.dart';
 import 'package:study_together/pages/detailPage.dart';
-import 'package:study_together/pages/studyTogether.dart';
 import 'package:study_together/service/studyService.dart';
 
+import 'detailPage.dart';
 import 'makeRoomPage.dart';
 
 class ImmediatelyStudyPage extends StatelessWidget {
@@ -138,8 +137,7 @@ class ImmediatelyStudyPage extends StatelessWidget {
                                             color: StudyTogetherColors.color2),
                                       ),
                                       Spacer(),
-                                      Text(
-                                          '인원수$currentMemberCount/$memberMaxCount'),
+                                      Text('최대인원 $memberMaxCount'),
                                       Spacer(),
                                       Text('$onOffLine'),
                                       Spacer(),
@@ -160,7 +158,6 @@ class ImmediatelyStudyPage extends StatelessWidget {
                                     builder: (context) =>
                                         DetailPage(doc, imgUrl!)),
                               );
-                              //launch(roompage);
                             },
                           );
                         });

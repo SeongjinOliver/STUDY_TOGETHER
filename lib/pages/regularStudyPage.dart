@@ -136,8 +136,7 @@ class RegularStudyPage extends StatelessWidget {
                                             color: StudyTogetherColors.color2),
                                       ),
                                       Spacer(),
-                                      Text(
-                                          '인원수$currentMemberCount/$memberMaxCount'),
+                                      Text('최대 인원 $memberMaxCount'),
                                       Spacer(),
                                       Text('$onOffLine'),
                                       Spacer(),
@@ -158,7 +157,6 @@ class RegularStudyPage extends StatelessWidget {
                                     builder: (context) =>
                                         DetailPage(doc, imgUrl!)),
                               );
-                              //launch(roompage);
                             },
                           );
                         });

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_file.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:study_together/pages/detailPage.dart';
 import 'package:study_together/pages/immediatelyStudyPage.dart';
@@ -729,7 +731,6 @@ class _HomePageState extends State<HomePage> {
                                             builder: (context) =>
                                                 DetailPage(doc, imgUrl!)),
                                       );
-                                      //launch(roompage);
                                     },
                                     child: Row(
                                       children: [
@@ -802,13 +803,32 @@ class _HomePageState extends State<HomePage> {
                               scrollDirection: Axis.horizontal,
                               itemCount: documents.length,
                               itemBuilder: (context, index) {
-                                final doc = documents[index];
+                                final doc = documents[index].data()
+                                    as Map<String, dynamic>;
                                 final category =
                                     categoryList[index % categoryList.length];
 
                                 final imgUrl = category["imgUrl"] ?? "";
-                                final startDate = doc.get("startdDate");
-                                final finishDate = doc.get("finishDate");
+                                // final startDate = DateTime.now();
+                                final startDateTimestamp =
+                                    doc["startDate"] as Timestamp;
+                                // print("test" + startDate.toString());
+                                // final finishDate = doc["finishDate"];
+
+                                // final formatter = DateFormat.Hm(
+                                //         startDateTimestamp.toString()) ??
+                                //     "";
+                                // print(formatter);
+                                // // print(formatter);
+                                // print(formatter);
+                                final startDate = startDateTimestamp
+                                    .toDate()
+                                    .toString()
+                                    .split(' ');
+                                final date =
+                                    startDate[0].toString().substring(2, 10);
+                                final time =
+                                    startDate[1].split('.')[0].substring(0, 5);
 
                                 return SizedBox(
                                   width: 100,
@@ -822,7 +842,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       SizedBox(height: 6),
                                       Text(
-                                        startDate,
+                                        '$date $time',
                                         textAlign: TextAlign.center,
                                       ),
                                     ],
