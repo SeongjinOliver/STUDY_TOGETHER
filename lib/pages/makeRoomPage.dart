@@ -297,7 +297,7 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                       decoration: InputDecoration(
                         // fillColor: Colors.blueAccent,
                         filled: true,
-                        hintText: "이 방에 대해서 설명 해주세요",
+                        hintText: "스터디의 기간, 요일, 시간을 명시해주세요.",
                         border: InputBorder.none,
                       ),
                     ),
@@ -314,7 +314,8 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                       decoration: InputDecoration(
                         // fillColor: Colors.blueAccent,
                         filled: true,
-                        hintText: "zoom, gather ...등의 url을 남겨주세요",
+                        hintText:
+                            "정규 스터디는 오픈채팅방 링크, 즉시스터디는 zoom, gather중 하나의 url을 남겨주세요.",
                         border: InputBorder.none,
                       ),
                     ),
