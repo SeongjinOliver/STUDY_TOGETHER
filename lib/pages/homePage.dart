@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:study_together/pages/detailPage.dart';
 import 'package:study_together/pages/immediatelyStudyPage.dart';
 import 'package:study_together/pages/makeRoomPage.dart';
 import 'package:study_together/pages/regularStudyPage.dart';
@@ -632,13 +633,14 @@ class _HomePageState extends State<HomePage> {
                                 return Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
                                   child: GestureDetector(
-                                    onTap: () => {
+                                    onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                RegularStudyPage()),
-                                      ),
+                                                DetailPage(doc, imgUrl!)),
+                                      );
+                                      //launch(roompage);
                                     },
                                     child: Row(
                                       children: [
@@ -720,13 +722,14 @@ class _HomePageState extends State<HomePage> {
                                 return Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
                                   child: GestureDetector(
-                                    onTap: () => {
+                                    onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ImmediatelyStudyPage()),
-                                      ),
+                                                DetailPage(doc, imgUrl!)),
+                                      );
+                                      //launch(roompage);
                                     },
                                     child: Row(
                                       children: [
@@ -804,7 +807,7 @@ class _HomePageState extends State<HomePage> {
                                     categoryList[index % categoryList.length];
 
                                 final imgUrl = category["imgUrl"] ?? "";
-                                final startDate = doc.get("stardDate");
+                                final startDate = doc.get("startdDate");
                                 final finishDate = doc.get("finishDate");
 
                                 return SizedBox(

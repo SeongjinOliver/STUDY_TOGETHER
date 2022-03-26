@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:study_together/config/studyTogetherColors.dart';
+import 'package:study_together/pages/detailPage.dart';
 import 'package:study_together/pages/studyTogether.dart';
 import 'package:study_together/service/studyService.dart';
 
@@ -97,6 +98,7 @@ class ImmediatelyStudyPage extends StatelessWidget {
                           final memberMaxCount = doc.get("memberMaxCount");
                           final onOffLine = doc.get("onOffLine");
                           final field = doc.get("field");
+
                           String? imgUrl = category["imgUrl"] ?? "";
                           for (Map<String, String> category in categoryList) {
                             if (category['name'] == field) {
@@ -152,12 +154,19 @@ class ImmediatelyStudyPage extends StatelessWidget {
                               ],
                             ),
                             onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailPage(doc, imgUrl!)),
+                              );
                               //launch(roompage);
                             },
                           );
                         });
                   }),
             ),
+            //방만들기 버튼
             Positioned(
               bottom: 20,
               right: 25,

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:study_together/config/studyTogetherColors.dart';
 import 'package:study_together/pages/homePage.dart';
 import 'package:study_together/pages/immediatelyStudyPage.dart';
 import 'package:study_together/pages/regularStudyPage.dart';
@@ -68,9 +69,9 @@ class _StudyTogetherState extends State<StudyTogether> {
                 currentIndex = newIndex;
               });
             },
-            backgroundColor: Colors.grey,
-            selectedItemColor: Color.fromARGB(255, 233, 11, 115), // 선택된 아이콘 색상
-            unselectedItemColor: Colors.grey[200], // 선택되지 않은 아이콘 색상
+            backgroundColor: Colors.blueGrey,
+            selectedItemColor: StudyTogetherColors.color4, // 선택된 아이콘 색상
+            unselectedItemColor: Colors.yellow[200], // 선택되지 않은 아이콘 색상
             showSelectedLabels: true, // 선택된 항목 label 숨기기
             showUnselectedLabels: true, // 선택되지 않은 항목 label 숨기기
             type: BottomNavigationBarType.fixed, // 선택시 아이콘 움직이지 않기
