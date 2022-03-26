@@ -842,7 +842,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       SizedBox(height: 6),
                                       Text(
-                                        '$date $time',
+                                        '$time',
                                         textAlign: TextAlign.center,
                                       ),
                                     ],
@@ -852,6 +852,7 @@ class _HomePageState extends State<HomePage> {
                             );
                           }),
                     ),
+                    SizedBox(height: 10),
                   ],
                 ),
               ),
