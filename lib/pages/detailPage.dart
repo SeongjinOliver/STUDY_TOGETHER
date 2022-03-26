@@ -191,13 +191,16 @@ class _DetailPageState extends State<DetailPage> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 5,
+              ),
               Expanded(
                 child: ListView.builder(
                   itemCount: replies.length,
                   itemBuilder: (context, index) {
                     return Container(
                       width: double.infinity,
-                      height: 50,
+                      height: 30,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
