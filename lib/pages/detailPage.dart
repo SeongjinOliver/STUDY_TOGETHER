@@ -15,15 +15,23 @@ class _DetailPageState extends State<DetailPage> {
   dynamic document;
   String? imageUrl;
 
+  List<String> replies = ['안녕하세요!'];
+
   _DetailPageState(var doc, String imgUrl) {
     document = doc;
     imageUrl = imgUrl;
   }
 
-  late TextEditingController _textEditingController;
+  final _textEditingController = TextEditingController();
   @override
   void initState() {
-    _textEditingController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,154 +53,162 @@ class _DetailPageState extends State<DetailPage> {
         elevation: 0.0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    flex: 2,
+                  ),
+                  Expanded(
+                    child: Text(
+                      '',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    flex: 1,
+                  ),
+                ],
+              ),
+              // Text(
+              //   "Hello detail page!!!!!!!!!!!!!!!!!!!!",
+              //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              // ),
+              SizedBox(height: 20),
+              Center(
+                child: Image.network(
+                  imageUrl!,
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      description,
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    flex: 15,
+                  ),
+                  Expanded(
+                    child: Text(
+                      '',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    flex: 1,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Text(
+                "참여방법",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              Center(
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 13,
+                            top: 10,
+                            bottom: 10,
+                          ),
+                          child: Text(
+                            attendance,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
                   children: [
                     Expanded(
-                      child: Text(
-                        '$title',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      child: TextField(
+                        controller: _textEditingController,
+                        onSubmitted: _handleSubmittedText,
+                        decoration: InputDecoration(
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                          hintText: "메세지 입력창",
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: StudyTogetherColors.color4),
+                          ),
                         ),
                       ),
-                      flex: 2,
                     ),
-                    Expanded(
-                      child: Text(
-                        '',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      flex: 1,
+                    SizedBox(width: 8.0),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: StudyTogetherColors.color1),
+                      onPressed: () {
+                        setState(() {
+                          replies.add(_textEditingController.value.text);
+                          _handleSubmittedText(
+                              _textEditingController.value.text);
+                        });
+                      },
+                      child: const Text('보내기'),
                     ),
                   ],
                 ),
-                // Text(
-                //   "Hello detail page!!!!!!!!!!!!!!!!!!!!",
-                //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                // ),
-                SizedBox(height: 20),
-                Center(
-                  child: Image.network(
-                    imageUrl!,
-                    width: 150,
-                    height: 150,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '$description',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                      flex: 15,
-                    ),
-                    Expanded(
-                      child: Text(
-                        '',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                      flex: 1,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "참여방법",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Center(
-                  child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: replies.length,
+                  itemBuilder: (context, index) {
+                    return Container(
                       width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 13,
-                              top: 10,
-                              bottom: 10,
-                            ),
-                            child: Text(
-                              '$attendance',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
-                Column(
-                  children: [
-                    // Expanded(
-                    //   child: ListView(
-                    //     children: [
-                    //       // ChatMessage(),
-                    //     ],
-                    //   ),
-                    // ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: _textEditingController,
-                              onSubmitted: _handleSubmittedText,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 5),
-                                hintText: "메세지 입력창",
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: StudyTogetherColors.color4),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 8.0),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: StudyTogetherColors.color1),
-                            onPressed: () {
-                              _handleSubmittedText(_textEditingController.text);
-                            },
-                            child: const Text('보내기'),
-                          ),
-                        ],
+                      height: 50,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          replies[index],
+                        ),
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
