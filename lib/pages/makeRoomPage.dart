@@ -164,7 +164,7 @@ class _MakeRoomPageState extends State<MakeRoomPage> {
                             '분야 무관',
                             'IT/개발',
                             '경제/투자',
-                            '수능/공부',
+                            '수능/고시',
                             '디자인',
                             '외국어',
                             '자격증',

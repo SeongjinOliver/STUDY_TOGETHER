@@ -101,32 +101,27 @@ class _HomePageState extends State<HomePage> {
     },
     {
       "name": "경제/투자",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114243-7e9ed8c8-e932-4237-a28d-cd7e2f27dbb5.png",
+      "imgUrl": "https://i.ibb.co/R9L0nqD/Money.jpg",
     },
     {
       "name": "수능/공부",
-      "imgUrl": "https://i.ibb.co/RjXFGcj/laptop-g93ba736f2-1920.jpg",
+      "imgUrl": "https://i.ibb.co/XJvkSWY/Gosi.jpg",
     },
     {
       "name": "디자인",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114246-06b354b2-ab51-4ef4-8f23-7d89fc0408b0.png",
+      "imgUrl": "https://i.ibb.co/F0KZ63f/Design.jpg",
     },
     {
       "name": "외국어",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114254-54c4d675-9052-4ae7-a06d-0bbb73577440.png",
+      "imgUrl": "https://i.ibb.co/zPM43vQ/Langue.jpg",
     },
     {
       "name": "자격증",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114249-5a18ab68-7047-4392-bc9e-8becda73c421.png",
+      "imgUrl": "https://i.ibb.co/h9KKF0M/Certificat.png",
     },
     {
       "name": "창업",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114239-c982ae3c-6129-4c0f-b757-6c734bf0257f.png",
+      "imgUrl": "https://i.ibb.co/55M9Gg6/Startup.jpg",
     },
   ];
 
@@ -805,12 +800,18 @@ class _HomePageState extends State<HomePage> {
                               itemBuilder: (context, index) {
                                 final doc = documents[index].data()
                                     as Map<String, dynamic>;
+
+                                ///map타입으로 변경해서 doc로 저장
+                                final doc2 = documents[index];
+
                                 final category =
                                     categoryList[index % categoryList.length];
 
                                 final imgUrl = category["imgUrl"] ?? "";
                                 // final startDate = DateTime.now();
                                 final startDateTimestamp =
+
+                                    ///startdate가 타임스탬로인식
                                     doc["startDate"] as Timestamp;
                                 // print("test" + startDate.toString());
                                 // final finishDate = doc["finishDate"];
@@ -830,22 +831,41 @@ class _HomePageState extends State<HomePage> {
                                 final time =
                                     startDate[1].split('.')[0].substring(0, 5);
 
-                                return SizedBox(
-                                  width: 100,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 52,
-                                        backgroundImage: NetworkImage(imgUrl),
-                                        backgroundColor: Colors.transparent,
-                                      ),
-                                      SizedBox(height: 6),
-                                      Text(
-                                        '$time',
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DetailPage(doc2, imgUrl!)),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 100,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: 52,
+                                                backgroundImage:
+                                                    NetworkImage(imgUrl),
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                              ),
+                                              SizedBox(height: 6),
+                                              Text(
+                                                '$time',
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               },

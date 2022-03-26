@@ -19,43 +19,35 @@ class ImmediatelyStudyPage extends StatelessWidget {
   final List<Map<String, String>> categoryList = const [
     {
       "name": "분야 무관",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114541-559cb125-4548-4898-b8eb-b1c4177dc5cb.png",
+      "imgUrl": "https://i.ibb.co/DtL9f5T/library-gcb425fc9b-1920.jpg",
     },
     {
       "name": "IT/개발",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114221-3b30aaab-2388-4331-b3a0-044ea6a049ad.png",
+      "imgUrl": "https://i.ibb.co/pvcP9ZK/notebook-g10db0d293-1920.jpg",
     },
     {
       "name": "경제/투자",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114243-7e9ed8c8-e932-4237-a28d-cd7e2f27dbb5.png",
+      "imgUrl": "https://i.ibb.co/R9L0nqD/Money.jpg",
     },
     {
       "name": "수능/공부",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114257-88f3c66c-a4b8-4d2d-9451-323a810ff9d4.png",
+      "imgUrl": "https://i.ibb.co/XJvkSWY/Gosi.jpg",
     },
     {
       "name": "디자인",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114246-06b354b2-ab51-4ef4-8f23-7d89fc0408b0.png",
+      "imgUrl": "https://i.ibb.co/F0KZ63f/Design.jpg",
     },
     {
       "name": "외국어",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114254-54c4d675-9052-4ae7-a06d-0bbb73577440.png",
+      "imgUrl": "https://i.ibb.co/zPM43vQ/Langue.jpg",
     },
     {
       "name": "자격증",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114249-5a18ab68-7047-4392-bc9e-8becda73c421.png",
+      "imgUrl": "https://i.ibb.co/h9KKF0M/Certificat.png",
     },
     {
       "name": "창업",
-      "imgUrl":
-          "https://user-images.githubusercontent.com/101466300/159114239-c982ae3c-6129-4c0f-b757-6c734bf0257f.png",
+      "imgUrl": "https://i.ibb.co/55M9Gg6/Startup.jpg",
     },
   ];
 
